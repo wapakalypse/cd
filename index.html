@@ -5,43 +5,172 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<style>
+
+		body {
+		 	display: flex;
+    		align-items: center;
+    		justify-content: space-between;
+    		margin: 0;
+    		font-family: Arial;
+		}
+
+		.screen {
+			background: #fafafa;
+			height: 100vh;
+			display: flex;
+            align-items: flex-start;
+		}
+
+		.screen-box {
+			width: 500px;
+			height: 500px;
+            background: #fafafa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+		}
+		
 		.cd-box {
 		  display: flex;
 		  align-items: center;
 		  justify-content: center;
-		  width: 500px;
-		  height: 500px;
-		  background: url('https://upload.wikimedia.org/wikipedia/ru/b/bf/Meteora.jpg');
+		  width: 450px;
+		  height: 450px;
+		  background: url('cd.jpg');
+		  background-size: cover;
 		  overflow: hidden;
 		  border-radius: 50%;
 		  border: 4px solid rgba(255,255,255,0.6);
+		  box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.7);
 		}
 
 		.cd-line {
 		  display: flex;
 		  align-items: center;
 		  justify-content: center;
-		  width: 150px;
-		  height: 150px;
+		  width: 30%;
+		  height: 30%;
 		  border-radius: 50%;
 		  border: 5px solid rgba(255,255,255,0.7);
 		}
 
 		.cd-hole {
-		  width: 75px;
-		  height: 75px;
+		  width: 50%;
+		  height: 50%;
 		  background: #fff;
 		  display: block;
 		  border-radius: 50%;
 		  border: 5px solid #c0c0c0;
+		  box-shadow: inset 2px 2px 5px 0px rgba(0, 0, 0, 0.7)
 		}
+
+		.buttons {
+			display: flex;
+    		align-items: center;
+    		justify-content: center;
+			width: 100%;
+			height: 100vh;
+			background: linear-gradient(to right, #fafafa, #829eec);
+		}
+
+		.img-link {
+			text-align: center;
+		}
+
+		.img-input {
+			width: 200px;
+    		line-height: 2;
+    		border-radius: 5px;
+    		border: 1px solid #b5a2ab;
+
+		}
+
+		.img-add,
+		.img-screen {
+			width: 200px;
+    		line-height: 2;
+    		border-radius: 5px;
+    		border: 1px solid #525252;
+    		color: #fff;
+		}
+
+		.img-add {
+    		background: #5983f9;
+		}
+
+		.img-screen {
+      		background: #2aad4d;
+		}
+
+		.copyright {
+			position: absolute;
+			left: 10px;
+			bottom: 10px;
+		}
+
 	</style>
 </head>
-<body style="display: flex; justify-content: center;">
-	<div class="cd-box">
-		<div class="cd-line">
-			<div class="cd-hole"></div>   
-		</div>
+<body>
+
+	<div class="screen">
+
+	    <div class="screen-box">
+	        
+    		<div class="cd-box">
+    			<div class="cd-line">
+    				<div class="cd-hole"></div>   
+    			</div>
+    		</div>
+    		
+        </div>
+        
 	</div>
+
+	<div class="buttons">
+
+		<div class="img-link">
+			<h3>Add Image-link</h3>
+			<p>(lastfm, amazon, ebay, twitter, wiki, ok)</p>
+			<input class="img-input" /><br /><br />
+			<button class="img-add">Add</button><br /><br />
+			<button class="img-screen">Screen</button>
+						
+		</div>
+
+	</div>	
+
+	<div class="copyright">© Created by <a href="https://ownspace.herokuapp.com/">Wapakalypse</a></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"><</script>
+
+<script>
+
+let imgCD = document.querySelector('.cd-box'),
+	imgLink = document.querySelector('.img-input'),
+	imgAdd = document.querySelector('.img-add'),
+	imgScreen = document.querySelector('.img-screen');
+
+    imgAdd.onclick = function() { imgCD.style.backgroundImage = 'url(' + imgLink.value + ')'; 
+    console.log(imgLink.value);};
+
+    imgScreen.onclick = function screenshot() {
+        domtoimage.toJpeg(document.querySelector('.screen-box'), { quality: 0.95 })
+        .then(function (dataUrl) {
+            
+            var imgName = prompt('Name of file', 'untitle');
+            
+            var link = document.createElement('a');
+            
+            link.crossOrigin = 'Anonymous';        
+            link.download = imgName;
+            link.href = dataUrl;
+            link.click();
+        });
+    };
+   
+</script>
+
+
+
 </body>
 </html>
